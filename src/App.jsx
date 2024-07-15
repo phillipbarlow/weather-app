@@ -1,32 +1,36 @@
 import React,{ useState} from 'react'
 import './App.css';
-import {getWeatherInfo} from './utils/api'
+import {getWeatherInfo} from './utils/api';
+import dayTimeImage from '../src/images/bgImage.jpg'
 function App() {
   const [input,setInput] = useState('');
   const [city,setCity] = useState('');
   const [error, setError] = useState(null);
+  function handleInputFocus() {
+    setInput('');
+  }
   function handleRequest(event){
-          if(event.key === 'Enter'){
-            event.preventDefault();
-            return getWeatherInfo(input)
-              .then((result)=>{
-                setCity(result);
-                setError(null);
-                console.log('city updated: ', result.data)
-              })
-              .catch((error)=>{
-                if (error.response && error.response.status === 404) {
-                  setError('City not found');
-                } else {
-                  setError('An error occurred. Please try again.');
-                }
-                setCity('');
-              })
-            }
+    if(event.key === 'Enter'){
+      event.preventDefault();
+      return getWeatherInfo(input)
+        .then((result)=>{
+          setCity(result);
+          setError(null);
+          // console.log('city updated: ', result.data)
+        })
+        .catch((error)=>{
+          if (error.response && error.response.status === 404) {
+            setError('City not found');
+          } else {
+            setError('An error occurred. Please try again.');
+          }
+          setCity('');
+        })
+      }
   }
   return (
     <div className="app">
-      <input type="text" placeholder='Enter location' onChange={(e)=>setInput(e.target.value)} onKeyDown={handleRequest}/>
+      <input type="text" placeholder='Enter location' onChange={(e)=>setInput(e.target.value)} onKeyDown={handleRequest} onFocus={handleInputFocus} value={input}/>
       <div className="container">
         <div className="top">
           <div className="temp">

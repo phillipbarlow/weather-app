@@ -5,7 +5,7 @@ export const getWeatherInfo = (city)=>{
       return axios
         .get(url)
           .then((result)=>{
-            console.log(result.data.location)
+            // console.log(result.data.location)
             return result.data
           })
           .catch((error)=>{
